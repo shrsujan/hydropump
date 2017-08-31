@@ -38,6 +38,9 @@ function startOperation(interval) {
     startTime: Date.now()
   });
   operation = setInterval(function () {
+    chrome.storage.sync.set({
+      startTime: Date.now()
+    });
     if (notificationId !== null) {
       chrome.notifications.clear(notificationId);
     }
