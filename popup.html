@@ -18,8 +18,9 @@
       
       .title {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
-        padding: 0 10px;
         color: #999;
+        width: 100%;
+        text-align: center;
       }
       
       .tgl {
@@ -129,13 +130,14 @@
   <body>
     <div class="options">
       <div class="title">
-        <!-- <h1>Remind Me</span> -->
+        <h4 id="countdown">00:00</h4>
       </div>
       <div class="content">
         <input id="cb5" class="tgl tgl-flip" type="checkbox" />
         <label class="tgl-btn" data-tg-off="Nope" data-tg-on="Yeah!" for="cb5"></label>
       </div>
     </div>
+    <script src="moment.min.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>
