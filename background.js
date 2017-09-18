@@ -7,9 +7,17 @@ let quotations = [
   "Stay hydrated and carry on.",
   "Suprise your liver by drinking water."
 ]
+let timeObj = {
+  interval: null,
+  startTime: null,
+  enabled: false
+}
 
 window.onload = function () {
-  chrome.storage.sync.get(['interval', 'enabled'], function(res) {
+  chrome.storage.sync.get(['interval', 'enabled', 'startTime'], function(res) {
+    timeObj.startTime = res.startTime
+    timeObj.interval = res.interval
+    timeObj.enabled = res.enabled
     if (res && res.enabled && res.interval) {
       startOperation(res.interval);
     }
@@ -17,7 +25,10 @@ window.onload = function () {
 }
 
 chrome.storage.onChanged.addListener(function (changes, namespace) {
-  chrome.storage.sync.get(['interval', 'enabled'], function(res) {
+  chrome.storage.sync.get(['interval', 'enabled', 'startTime'], function(res) {
+    timeObj.startTime = res.startTime
+    timeObj.interval = res.interval
+    timeObj.enabled = res.enabled
     if (changes.enabled && !changes.enabled.newValue && operation !== null) {
       clearInterval(operation);
     }
@@ -29,18 +40,26 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
   })
 })
 
+chrome.runtime.onMessage.addListener(function(req,sender,sendResponse){
+  sendResponse(timeObj);
+})
+
 function startOperation(interval) {
+  let dateNow = Date.now(); 
   if (operation !== null) {
     clearInterval(operation);
   }
   let intervalInMs = +interval * 60 * 1000;
   chrome.storage.sync.set({
-    startTime: Date.now()
+    startTime: dateNow
   });
+  timeObj.startTime = dateNow
   operation = setInterval(function () {
+    dateNow = Date.now()
     chrome.storage.sync.set({
-      startTime: Date.now()
+      startTime: dateNow
     });
+    timeObj.startTime = dateNow
     if (notificationId !== null) {
       chrome.notifications.clear(notificationId);
     }
