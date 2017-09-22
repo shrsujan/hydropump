@@ -41,8 +41,31 @@ chrome.storage.onChanged.addListener(function (changes, namespace) {
 })
 
 chrome.runtime.onMessage.addListener(function(req,sender,sendResponse){
-  sendResponse(timeObj);
-})
+  let intervalInMs = +timeObj.interval * 60 * 1000;
+  let endTime = timeObj.startTime + intervalInMs;
+  let eT = moment.duration(endTime);
+  let cT = moment.duration(Date.now());
+  let diff = eT.subtract(cT);
+  let diffInMin = diff.get('minutes');
+  let diffInSec = diff.get('seconds');
+  if (diffInMin < 0 || diffInSec < 0) {
+    clearInterval(operation);
+    startOperation(timeObj.interval);
+    intervalInMs = +timeObj.interval * 60 * 1000;
+    endTime = timeObj.startTime + intervalInMs;
+    eT = moment.duration(endTime);
+    cT = moment.duration(Date.now());
+    diff = eT.subtract(cT);
+    diffInMin = diff.get('minutes');
+    diffInSec = diff.get('seconds');
+  }
+  let minutes = '' + diffInMin;
+  let seconds = '' + diffInSec;
+  minutes = (minutes.length === 1)? ('0' + minutes):minutes;
+  seconds = (seconds.length === 1)? ('0' + seconds):seconds;
+  let time = `${minutes}:${seconds}`;
+  sendResponse(time);
+});
 
 function startOperation(interval) {
   let dateNow = Date.now(); 

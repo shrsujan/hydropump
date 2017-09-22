@@ -48,25 +48,9 @@ function save() {
 
 function countdownTimer() {
   countdown = setInterval(function () {
-    // StorageArea.get(['interval', 'enabled', 'startTime'], function (res) {
-    chrome.runtime.sendMessage(null, {request: 'getTime'}, function(timeObj) {
-      let intervalInMs = +timeObj.interval * 60 * 1000;
-      let endTime = timeObj.startTime + intervalInMs;
-      let eT = moment.duration(endTime);
-      let cT = moment.duration(Date.now());
-      let diff = eT.subtract(cT);
-      let minutes = '' + diff.get('minutes');
-      let seconds = '' + diff.get('seconds');
-      minutes = (minutes.length === 1)? ('0' + minutes):minutes;
-      seconds = (seconds.length === 1)? ('0' + seconds):seconds;
-      countdownDom.innerText = `${minutes}:${seconds}`;
-      // if (!diff.get('minutes') && !diff.get('seconds')) {
-      //   StorageArea.set({
-      //     startTime: Date.now()
-      //   });
-      // }
+    chrome.runtime.sendMessage(null, {request: 'getTime'}, function(time) {
+      countdownDom.innerText = time;
     })
-    // });
   }, 1000);
 }
 

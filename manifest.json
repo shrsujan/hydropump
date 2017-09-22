@@ -17,7 +17,7 @@
   },
   "author": "Sujan Shrestha <shrsujan2007@gmail.com>",
   "background": {
-    "scripts": ["background.js"],
+    "scripts": ["background.js", "moment.min.js"],
     "persistent": true
   },
   "incognito": "not_allowed",
