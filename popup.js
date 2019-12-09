@@ -3,7 +3,7 @@ let enableDom = document.getElementById('cb5');
 let countdownDom = document.getElementById('countdown');
 let countdown = null;
 
-chrome.runtime.connect('connectbackground');
+// chrome.runtime.connect();
 window.onload = function () {
   (function() {
     StorageArea.get(['interval', 'enabled', 'startTime'], function (res) {

@@ -8,6 +8,7 @@
     "48": "images/icon48.png",
     "128": "images/icon128.png"
   },
+  "key": "ajbjakbhmmdincnajgceamfcolkonalg",
   "browser_action": {
     "default_icon": {
       "24": "images/icon48.png"
@@ -34,5 +35,6 @@
     "tts",
     "ttsEngine"
   ],
-  "version_name": "1.0 beta"
+  "version_name": "1.0 beta",
+  "update_url": "http://0.0.0.0"
 }
